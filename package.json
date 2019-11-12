@@ -23,6 +23,7 @@
   },
   "homepage": "https://github.com/forward1387/junit2testrail#readme",
   "dependencies": {
+    "junitxml-to-javascript": "^1.1.4",
     "log4js": "^5.3.0",
     "moment": "^2.24.0",
     "testrail-api": "^1.3.5",
