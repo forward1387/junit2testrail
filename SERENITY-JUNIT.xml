@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite errors="0" failures="0" name="com.omnigon.pgat.features.webmodules.health.HomePageHealthTest" skipped="0" tests="13" time="197.78" timestamp="2019-11-12 12:29:50">
+    <testcase classname="com.omnigon.pgat.features.webmodules.health.HomePageHealthTest" name="Verify 'Tour Update 2' module on the page"/>
+    <testcase classname="com.omnigon.pgat.features.webmodules.health.HomePageHealthTest" name="Verify 'Feed' module on the page"/>
+    <testcase classname="com.omnigon.pgat.features.webmodules.health.HomePageHealthTest" name="Verify 'Meet The Players' module on the page"/>
+    <testcase classname="com.omnigon.pgat.features.webmodules.health.HomePageHealthTest" name="Verify 'T1' module on the page"/>
+    <testcase classname="com.omnigon.pgat.features.webmodules.health.HomePageHealthTest" name="Verify 'Half Two Col' module on the page"/>
+    <testcase classname="com.omnigon.pgat.features.webmodules.health.HomePageHealthTest" name="Verify 'Trending 2' module on the page"/>
+    <testcase classname="com.omnigon.pgat.features.webmodules.health.HomePageHealthTest" name="Verify 'Charity' module on the page"/>
+    <testcase classname="com.omnigon.pgat.features.webmodules.health.HomePageHealthTest" name="Verify 'Course Overview' module on the page"/>
+    <testcase classname="com.omnigon.pgat.features.webmodules.health.HomePageHealthTest" name="Verify 'Don't Miss This' module on the page"/>
+    <testcase classname="com.omnigon.pgat.features.webmodules.health.HomePageHealthTest" name="Verify 'Leaderboard-Banner' module on the page"/>
+    <testcase classname="com.omnigon.pgat.features.webmodules.health.HomePageHealthTest" name="Verify 'Footer Navigation' module on the page"/>
+    <testcase classname="com.omnigon.pgat.features.webmodules.health.HomePageHealthTest" name="Verify 'Sub Footer' module on the page"/>
+    <testcase classname="com.omnigon.pgat.features.webmodules.health.HomePageHealthTest" name="Verify 'Top Navigation' module on the page"/>
+</testsuite>
