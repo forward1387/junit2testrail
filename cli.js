@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 let {log} = require('./config/log'),
-    {addMilestone, startMilestone} = require('./testrail/milestones');
+    {addMilestone, startMilestone} = require('./testrail/milestones'),
+    {} = require('./testrail/sendxmlresults');
 
 require('yargs')
     .usage('Usage: $0 <command> [options]')
