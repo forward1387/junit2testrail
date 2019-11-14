@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 let {log} = require('./config/log'),
     {addMilestone, startMilestone} = require('./testrail/milestones'),
-    {} = require('./testrail/sendxmlresults');
+    {sendResults} = require('./testrail/sendxmlresults');
 
 require('yargs')
     .usage('Usage: $0 <command> [options]')
@@ -36,10 +36,8 @@ require('yargs')
             describe: 'TestRail config -t.host=<host> -t.username=<username> -t.token=<token|password> -t.runId=<runId>'
         });
       },
-      (argv) => addMilestone(argv).then((milestone) => {
-          log.info('Milestone was successfully created: ' + JSON.stringify(milestone));
-          return startMilestone(argv, milestone);
-    })).example('milestones', 'junit2testrail milestones -m TestMilestone -s YYYY-MM-DD -e YYYY-MM-DD -t.host=https://<domain>.testrail.net/ -t.username=demo -t.token=demo -t.projectId 1')
+      (argv) => sendResults(argv).then((results) => log.info(`Send results to run id = ${argv.t.runId}.`)))
+      .example('xmlreport', 'junit2testrail xmlreport -f <Ful-path to junit report> -t.host=https://<domain>.testrail.net/ -t.username=demo -t.token=demo -t.runId 1 -t.assignedToId 1')
     .string(['m', 's', 'e'])
     .demandCommand(1)
     .version('v')
