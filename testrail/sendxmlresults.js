@@ -16,7 +16,7 @@ exports.mapToTestRailFormat = (config, report) => {
                 status_id: undefined,
             };
             log.debug(JSON.stringify(tc));
-            let match = /#(.*)/.exec(tc.name);
+            let match = /@(.*)/.exec(tc.name);
             if(match !== null) {
                 trTest['test_id'] = match[1];
                 if (tc.result === 'succeeded') {
@@ -51,8 +51,16 @@ exports.sendResults = (config) => {
 
     log.debug(JSON.stringify(config.t));
 
-    return new Promise((resolve, reject) => exports.parseXml(config.f).then((results) => testrail.addResults(config.t.runId, exports.mapToTestRailFormat(config, results), (err, response, res) => {
-        if(err) reject(err);
-        resolve(res);
-    })));
+    return new Promise((resolve, reject) => exports.parseXml(config.f).then((results) => {
+        let trdata = exports.mapToTestRailFormat(config, results);
+        log.info(JSON.stringify(trdata));
+        if(_.size(trdata) === 0) {
+            resolve(trdata);
+        } else {
+            testrail.addResults(config.t.runId, trdata, (err, response, res) => {
+                if(err) reject(err);
+                resolve(res);
+            });
+        }
+    }));
 };
