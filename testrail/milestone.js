@@ -21,33 +21,37 @@ exports.getMilestones = async (config) => {
     });
 };
 
-exports.getMilestone = async (config) => {
+exports.getMilestone = async (config, milestoneName) => {
     let milestones = await exports.getMilestones(config);
 
-    return _.findWhere(milestones, {name: config.m});
+    return _.findWhere(milestones, {name: milestoneName});
 };
 
-exports.addMilestone = async (config) => {
-    let milestone = await exports.getMilestone(config);
-    if(milestone) {
-        log.info(`Milestone with name='${config.m}', startDate='${config.s}' and endDate='${config.e}' has already created.`);
-        return milestone;
-    }
-
+exports.addNewMilestone = async (config) => {
     let testrail = new Testrail({
         host: config.t.host,
         user: config.t.username,
         password: config.t.token
     });
 
-    log.info(`Create milestone with name='${config.m}', startDate='${config.s}' and endDate='${config.e}'.`);
+    log.info(`Create new milestone with name='${config.n}', startDate='${config.s}' and endDate='${config.e}'.`);
     return new Promise((resolve, reject) => {
-        testrail.addMilestone(config.t.projectId, {name: config.m, due_on : moment(config.e, 'YYYY-MM-DD').unix(), start_on : moment(config.s, 'YYYY-MM-DD').unix()}, (err, response, milestone) => {
+        testrail.addMilestone(config.t.projectId, {name: config.n, due_on: moment(config.e, 'YYYY-MM-DD').valueOf(), start_on: moment(config.s, 'YYYY-MM-DD').valueOf()}, (err, response, milestone) => {
             if(err) reject(err);
-
+            log.info(`Milestone created: ${JSON.stringify(milestone)}`);
             resolve(milestone)
         });
     });
+};
+
+exports.addMilestone = async (config) => {
+    let milestone = await exports.getMilestone(config);
+    if(milestone) {
+        log.info(`Milestone with name='${config.n}', startDate='${config.s}' and endDate='${config.e}' has already created.`);
+        return milestone;
+    }
+
+    return exports.addNewMilestone(config).then((milestone) => exports.startMilestone(config, milestone).then(() => milestone));
 };
 
 exports.startMilestone = async (config, milestone) => {
@@ -57,11 +61,11 @@ exports.startMilestone = async (config, milestone) => {
         password: config.t.token
     });
 
+    log.info(`Start milestone: ${JSON.stringify(milestone)}`);
     return new Promise((resolve, reject) => {
         testrail.updateMilestone(milestone.id, {is_started: true}, (err, response, milestone) => {
             if(err) reject(err);
 
-            log.info(`Start milestone: ${JSON.stringify(milestone)}`);
             resolve(milestone)
         });
     });

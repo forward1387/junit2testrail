@@ -1,6 +1,6 @@
 {
   "name": "junit2testrail",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "bin": {
     "junit2testrail": "./cli.js"
   },
@@ -26,8 +26,8 @@
     "junitxml-to-javascript": "^1.1.4",
     "log4js": "^5.3.0",
     "moment": "^2.24.0",
-    "testrail-api": "^1.3.5",
+    "testrail-api": "^1.3.6",
     "underscore": "^1.9.1",
-    "yargs": "^14.2.0"
+    "yargs": "^15.3.1"
   }
 }
