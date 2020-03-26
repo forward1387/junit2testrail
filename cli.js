@@ -50,7 +50,9 @@ require('yargs')
             describe: 'TestRail config -t.host=<host> -t.username=<username> -t.token=<token|password> -t.projectId 1 -t.milestone MilestoneName -t.plan PlanName -t.suite SuiteName'
         });
       },
-      (argv) => parseXMLFiles(argv).then((cases) => addRun(argv, cases).then((run) => sendResult(argv, run.id, cases))))
+      (argv) => parseXMLFiles(argv).then((cases) => {
+        if(_.size(cases) > 0) return addRun(argv, cases).then((run) => sendResult(argv, run.id, cases));
+      }))
       .example('xmlreport', 'junit2testrail xmlreport -f <Ful-path to junit report> -n <Test Run Name> -t.host=https://<domain>.testrail.net/ -t.username=demo -t.token=demo -t.projectId 1 -t.milestone MilestoneName -t.plan PlanName')
     .string(['m', 's', 'e'])
     .demandCommand(1)
