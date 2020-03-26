@@ -1,9 +1,10 @@
 'use strict';
 
 const Parser = require("junitxml-to-javascript"),
-  Testrail = require('testrail-api'),
   {log} = require('../config/log'),
-  _ = require('underscore');
+  fs = require('fs'),
+  _ = require('underscore'),
+  dir = require('node-dir');
 
 exports.parseXml = (config) => new Parser().parseXMLFile(config.f).then((results) => exports.mapToTestRailFormat(config, results));
 
@@ -40,4 +41,16 @@ exports.mapToTestRailFormat = (config, report) => {
 
     log.debug(JSON.stringify(testCases));
     return testCases;
+};
+
+exports.readFiles = (config, files) => {
+    return Promise.all(_.map(files, (fl) => new Parser().parseXMLFile(fl).then((results) => exports.mapToTestRailFormat(config, results))));
+} 
+
+exports.parseXMLFiles =  async (config) => {
+    if(fs.lstatSync(config.f).isDirectory()) {
+        return exports.readFiles(config, _.filter(dir.files(config.f, {sync:true}), (filePath) => filePath.match(new RegExp(config.r)) !== null)).then((res) => _.flatten(res));
+    } else {
+        return exports.parseXml(config);
+    }
 };

@@ -51,6 +51,8 @@ exports.addNewRun = async (config, name, suiteId, milestoneId, caseIds) => {
 exports.addRun = async (config, cases) => exports.getRun(config, config.n).then((run) => {
     if(run) return run;
 
+    log.info(`Cases: ${JSON.stringify(cases)}`);
+
     return getMilestone(config, config.t.milestone)
         .then((milestone) => getSuite(config, config.t.suite)
             .then((suite) => exports.addNewRun(config, config.n, suite.id, milestone.id, _.map(cases, (cs) => cs.case_id))));

@@ -1,10 +1,9 @@
 #!/usr/bin/env node
 let _ = require('underscore'),
-    {log} = require('./config/log'),
     {addMilestone} = require('./testrail/milestone'),
     {addPlan} = require('./testrail/plan'),
     {addRun} = require('./testrail/run'),
-    {parseXml} = require('./testrail/xmlparser'),
+    {parseXMLFiles} = require('./testrail/xmlparser'),
     {sendResult} = require('./testrail/test');
 
 require('yargs')
@@ -43,12 +42,15 @@ require('yargs')
         }).option('n', {
             alias: 'runName',
             describe: 'TestRail run name'
+        }).option('r', {
+          alias: 'fileRegexp',
+          describe: 'Regexp of file name'
         }).option('t', {
             alias: 'testRailConfig',
             describe: 'TestRail config -t.host=<host> -t.username=<username> -t.token=<token|password> -t.projectId 1 -t.milestone MilestoneName -t.plan PlanName -t.suite SuiteName'
         });
       },
-      (argv) => parseXml(argv).then((cases) => addRun(argv, cases).then((run) => sendResult(argv, run.id, cases))))
+      (argv) => parseXMLFiles(argv).then((cases) => addRun(argv, cases).then((run) => sendResult(argv, run.id, cases))))
       .example('xmlreport', 'junit2testrail xmlreport -f <Ful-path to junit report> -n <Test Run Name> -t.host=https://<domain>.testrail.net/ -t.username=demo -t.token=demo -t.projectId 1 -t.milestone MilestoneName -t.plan PlanName')
     .string(['m', 's', 'e'])
     .demandCommand(1)
